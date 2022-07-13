@@ -22,6 +22,7 @@ class ResetPasswordController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->messages(), 400);
         }
+
         $credentials = request()->all();
 
         $status = Password::reset(

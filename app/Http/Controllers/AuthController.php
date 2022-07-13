@@ -51,9 +51,11 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
         return $this->createNewToken($token);
     }
 
@@ -65,8 +67,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string|between:2,100',
-            'lastname' => 'required|string|between:2,100',
+            'first_name' => 'required|string|between:2,100',
+            'last_name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
         ]);
@@ -119,7 +121,7 @@ class AuthController extends Controller
     public function me()
     {
         $id = auth()->id();
-        // return response()->json(User::find($id)->team);
+
         return response()->json(User::with(['teams', 'social'])->find($id));
     }
 

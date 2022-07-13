@@ -17,8 +17,8 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'image' => $this->image,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'blocked' => $this->blocked,
             'subscribed' => $this->subscribed,
-            'permissions' => $this->permissions,
+
             // RELATIONSHIPS
             'teams' => $this->whenLoaded($this->teams),
             'social' => $this->whenLoaded($this->social),

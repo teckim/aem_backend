@@ -40,8 +40,8 @@ class SocialAuthController extends Controller
 
         if (!$user) {
             $user = User::create([
-                'firstname' => $socialUser->user['given_name'],
-                'lastname' => $socialUser->user['family_name'],
+                'first_name' => $socialUser->user['given_name'],
+                'last_name' => $socialUser->user['family_name'],
                 'email' => $email,
                 'email_verified_at' => $this->isSocialUserEmailVerified($socialUser, $service) ? time() : null,
                 'image' => $socialUser->user['image'],
@@ -76,6 +76,7 @@ class SocialAuthController extends Controller
     public function getExistingUser($socialUser, $email, $service)
     {
         $user_id = $socialUser->getId();
+
         if ($service == 'google') {
             return User::where('email', $email)->orWhereHas('social', function ($q) use ($user_id, $service) {
                 $q->where('user_id', $user_id)->where('service', $service);

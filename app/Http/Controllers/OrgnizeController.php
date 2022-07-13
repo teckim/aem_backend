@@ -50,6 +50,7 @@ class OrgnizeController extends Controller
     {
         $post = Orgnize::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

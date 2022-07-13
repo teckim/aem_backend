@@ -19,15 +19,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return Role::select('name', 'slug', 'id')
-            ->with([
-                'permissions' => function ($query) {
-                    return $query
-                        ->select('permissions.name', 'permissions.id')
-                        ->orderBy('name', 'asc');
-                }
-            ])
-            ->get();
+        return Role::select('name', 'slug', 'id')->get();
     }
 
     /**
@@ -63,6 +55,7 @@ class RoleController extends Controller
     {
         $role->name = $request->name;
         $role->save();
+
         return $role;
     }
 

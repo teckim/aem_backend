@@ -113,6 +113,7 @@ class TeamEventController extends Controller
     public function update(EventRequest $request, $team, Event $event)
     {
         $event->update($request->all());
+
         return $event;
     }
 

@@ -50,6 +50,7 @@ class CategoryController extends Controller
     {
         $post = Category::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

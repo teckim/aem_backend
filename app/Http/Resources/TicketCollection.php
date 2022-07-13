@@ -15,7 +15,6 @@ class TicketCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection;
-        // return parent::toArray($request);
     }
 
     public static $wrap = 'data';

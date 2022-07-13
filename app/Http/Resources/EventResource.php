@@ -27,19 +27,19 @@ class EventResource extends JsonResource
             'end_at' => $this->end_at,
             'tickets_count' => $this->tickets_count,
             'suspended' => $this->suspended,
-            'price' => $this->when(auth()->user()->hasPermission('view_event_price') ,$this->price),
-            // 'price' => $this->price,
+            'price' => $this->when(auth()->user()->hasRole('ADMIN') ,$this->price),
+
             // CALCULATED
             'sold_tickets'=> $this->sold_tickets,
             'checked_tickets'=> $this->checked_tickets,
             'state'=> $this->state,
             'published'=> $this->published,
+
             // RELATIONSHIPS
             'tickets' => $this->whenLoaded('tickets'),
             'category'=> $this->whenLoaded('category'),
             'location'=> $this->whenLoaded('location'),
             'team'=> $this->whenLoaded('team')
         ];
-        // return parent::toArray($request);
     }
 }

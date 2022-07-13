@@ -29,6 +29,7 @@ class TeamController extends Controller
         $request->merge([
             'id' => generateID(Team::class)
         ]);
+
         return Team::create($request->all());
     }
 
@@ -54,6 +55,7 @@ class TeamController extends Controller
     {
         $post = Team::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

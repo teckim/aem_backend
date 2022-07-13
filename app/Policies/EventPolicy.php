@@ -18,7 +18,8 @@ class EventPolicy
      */
     public function viewAny(User $user)
     {
-        $can = $user->hasPermission('view_any_event');
+        $can = $user->hasRole(['ADMIN']);
+
         return $can;
     }
 
@@ -31,7 +32,8 @@ class EventPolicy
      */
     public function view(User $user, Event $event)
     {
-        $can = $user->hasPermission('view_event');
+        $can = $user->hasRole(['ADMIN']);
+
         return $can;
     }
 
@@ -55,8 +57,9 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
-        $can = $user->hasPermission('update_event');
+        $can = $user->hasRole(['ADMIN']);
         $own = $event->team()->whereIn('id', $user->teams)->exists();
+
         return $can && $own;
     }
 
@@ -69,8 +72,9 @@ class EventPolicy
      */
     public function delete(User $user, Event $event)
     {
-        $can = $user->hasPermission('delete_event');
+        $can = $user->hasRole(['ADMIN']);
         $own = $event->team()->whereIn('id', $user->teams)->exists();
+
         return $can && $own;
     }
 
@@ -100,8 +104,9 @@ class EventPolicy
 
     public function checkinAll(User $user, Event $event) 
     {
-        $can = $user->hasPermission('update_ticket_checkin_all');
+        $can = $user->hasRole(['ADMIN']);
         $own = $event->team->whereIn('id', $user->teams)->exists();
+
         return $can && $own;
     }
 }

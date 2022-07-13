@@ -21,9 +21,6 @@ class ImagesController extends Controller
     public function show($fileName)
     {
         return response()->json(['data' => asset('images/' . $fileName)]);
-        // return Storage::get('/images/' . $fileName);
-        // $path = storage_path().'/app/public/images/'.$fileName;
-        // return response()->download($path);
     }
 
     public function store(Request $request)

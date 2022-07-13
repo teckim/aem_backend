@@ -24,8 +24,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanRe
      */
     protected $fillable = [
         'username',
-        'firstname',
-        'lastname',
+        'first_name',
+        'last_name',
         'birth_date',
         'gender',
         'major',
@@ -58,13 +58,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanRe
         'blocked' => 'boolean'
     ];
 
-    protected $appends = ['flat_permissions', 'flat_roles'];
+    protected $appends = ['flat_roles'];
 
     public function sluggable(): array
     {
         return [
             'username' => [
-                'source' => ['firstname', 'lastname']
+                'source' => ['first_name', 'last_name']
             ]
         ];
     }
@@ -80,34 +80,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanRe
         return $this->belongsToMany(Team::class, 'members');
     }
 
-    // public function member()
-    // {
-    //     // return $this->belongsToMany(Team::class, 'members');
-    //     return $this->hasManyThrough(Team::class, Member::class, 'user_id', 'id', 'id', 'team_id');
-    // }
-
     public function social()
     {
         return $this->hasMany(Social::class);
     }
 
     // APPENDED ATTRIBUTES
-    public function getFlatPermissionsAttribute()
-    {
-        $permissions = $this->roles()->with('permissions')->get()
-            ->pluck('permissions')
-            ->flatten()
-            ->pluck('name')
-            ->unique()
-            ->flatten()
-            ->toArray();
-        return $permissions;
-    }
-
     public function getFlatRolesAttribute()
     {
         $roles = $this->roles()->get()
-            ->pluck('name')
+            ->pluck('slug')
             ->flatten()
             ->toArray();
         return $roles;
@@ -134,22 +116,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanRe
         return [];
     }
 
-    public function hasRole($role)
+    public function hasRoles($roles)
     {
-        return $this->roles()->where('slug', $role)->exists();
-    }
-
-    public function hasPermission($permission)
-    {
-        $roles = $this->belongsToMany(Role::class)->get();
-
-        $res = false;
-        foreach ($roles as $role) {
-            $res = $role->includesPermission($permission);
-            if ($res) break;
-        }
-
-        return $res;
+        return $this->roles()->whereIn('slug', $roles)->exists();
     }
 
     public function getSocialAccount($user)

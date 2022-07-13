@@ -16,6 +16,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::with(['event', 'user'])->get();
+
         return $tickets;
     }
 
@@ -52,6 +53,7 @@ class TicketController extends Controller
     {
         $post = Ticket::find($id);
         $post->update($request->all());
+
         return $post;
     }
 
@@ -70,20 +72,26 @@ class TicketController extends Controller
     public function checkin(Request $request, $id) 
     {
         $post = Ticket::find($id);
+
         if (is_null($post->checkin_at)) {
             $post->checkin = Carbon::now();
         }
+
         $post->save();
+
         return $post;
     }
 
     public function checkout(Request $request, $id) 
     {
         $post = Ticket::find($id);
+
         if (!is_null($post->checkin_at)) {
             $post->checkin = null;
         }
+        
         $post->save();
+        
         return $post;
     }
 }

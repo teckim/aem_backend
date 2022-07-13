@@ -23,13 +23,14 @@ class TicketResource extends JsonResource
             'note'=> $this->note,
             'created_at'=> $this->created_at,
             'updated_at'=> $this->updated_at,
+
             // RELATIONSHIPS
             'user' => $this->whenLoaded('user'),
+
             // JOINED USER
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'email' => $this->email
         ];
-        // return parent::toArray($request);
     }
 }

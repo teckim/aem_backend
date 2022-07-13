@@ -27,26 +27,16 @@ class EventTicketController extends Controller
         $sort_by = request()->query('sortBy', [null])[0];
         $desc = (request()->query('sortDesc', ['false'])[0] === 'true');
         $search = request()->query('search', '');
-        // $state = request()->query('state', 'all');
-
-        // $tickets = Ticket::with([
-        //     'user' => function ($query) use (&$search) {
-        //         $query->where('firstname', 'like', '%' . $search . '%')
-        //             ->orWhere('lastname', 'like', '%' . $search . '%')
-        //             ->orWhere('email', 'like', '%' . $search . '%');
-        //     }
-        // ])
-        //     ->where('event_id', $event_id);
+        
 
         $tickets = Ticket::join('users', 'users.id', '=', 'tickets.user_id')
             ->where('event_id', $event->id)
             ->where(function ($q) use ($search) {
-                $q->where('firstname', 'like', '%' . $search . '%')
-                ->orWhere('lastname', 'like', '%' . $search . '%')
+                $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
             });
 
-        // Order by
         if ($sort_by) {
             $sort_by = $sort_by == 'created_at' ? 'tickets.created_at' : $sort_by;
             $tickets = $tickets
@@ -57,9 +47,6 @@ class EventTicketController extends Controller
         $tickets = $tickets->paginate($items_per_page);
 
         return new TicketCollection($tickets);
-
-        // $tickets = Ticket::with('user')->where('event_id', $event_id)->get();
-        // return new TicketCollection($tickets);
     }
 
     /**

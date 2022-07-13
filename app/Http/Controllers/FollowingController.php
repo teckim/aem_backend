@@ -50,6 +50,7 @@ class FollowingController extends Controller
     {
         $post = Following::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

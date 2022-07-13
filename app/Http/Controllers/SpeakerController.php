@@ -50,6 +50,7 @@ class SpeakerController extends Controller
     {
         $post = Speaker::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

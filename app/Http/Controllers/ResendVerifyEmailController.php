@@ -9,6 +9,7 @@ class ResendVerifyEmailController extends Controller
     public function __invoke(Request $request)
     {
         $request->user()->sendEmailVerificationNotification();
+
         return response()->json(['message' => 'email resent successfully!']);   
     }
 }

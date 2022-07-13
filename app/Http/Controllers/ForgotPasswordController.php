@@ -19,12 +19,15 @@ class ForgotPasswordController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->messages(), 400);
         }
+
         $credentials = request()->all();
         $email = $credentials['email'];
         $exists = User::where('email', $email)->count();
+
         if (!$exists) {
             return response()->json(['email' => ['No account associated with that email']], 400);
         }
+
         try {
             Password::sendResetLink($request->only('email'));
             return response()->json(['message' => 'email sent']);

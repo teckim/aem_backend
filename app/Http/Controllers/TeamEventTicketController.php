@@ -33,11 +33,11 @@ class TeamEventTicketController extends Controller
 
         // Search by user info
         $tickets = Ticket::join('users', 'users.id', '=', 'tickets.user_id')
-            ->select('tickets.*', 'users.firstname', 'users.lastname', 'users.email')
+            ->select('tickets.*', 'users.first_name', 'users.last_name', 'users.email')
             ->where('event_id', $event)
             ->where(function ($q) use ($search) {
-                $q->where('firstname', 'like', '%' . $search . '%')
-                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                $q->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
 
@@ -103,22 +103,28 @@ class TeamEventTicketController extends Controller
     public function checkin(Request $request, $team, $event, Ticket $ticket)
     {
         $this->authorize('checkin', $ticket);
+
         if (is_null($ticket->checkin_at)) {
             $ticket->checkin_at = Carbon::now();
             $ticket->save();
         }
+
         $ticket = $ticket->load('user');
+
         return new TicketResource($ticket);
     }
 
     public function checkout(Request $request, $team, $event, Ticket $ticket)
     {
         $this->authorize('checkin', $ticket);
+
         if (!is_null($ticket->checkin_at)) {
             $ticket->checkin_at = null;
             $ticket->save();
         }
+
         $ticket = $ticket->load('user');
+
         return new TicketResource($ticket);
     }
 }

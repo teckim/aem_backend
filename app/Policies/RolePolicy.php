@@ -18,7 +18,7 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        $can = $user->hasRole('root');
+        $can = $user->hasRole(['ROOT']);
         return $can;
     }
 
@@ -42,7 +42,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        $can = $user->hasRole('root');
+        $can = $user->hasRole(['ROOT']);
         return $can;
     }
 
@@ -55,7 +55,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        $can = $user->hasRole('root');
+        $can = $user->hasRole(['ROOT']);
         return $can;
     }
 
@@ -68,7 +68,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        $can = $user->hasRole('root');
+        $can = $user->hasRole(['ROOT']);
         return $can;
     }
 

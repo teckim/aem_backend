@@ -50,6 +50,7 @@ class SpeakingController extends Controller
     {
         $post = Speaking::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

@@ -29,14 +29,4 @@ class Role extends Model
             ]
         ];
     }
-
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class, 'role_permission');
-    }
-
-    public function includesPermission($permission)
-    {
-        return (bool) $this->permissions()->where('permissions.name', $permission)->count();
-    }
 }

@@ -26,6 +26,7 @@ class LocationController extends Controller
                 ->paginate($items_per_page);
         else $locations = Location::where('name', 'like', '%' . $search . '%')
             ->paginate($items_per_page);
+
         return $locations;
     }
 
@@ -72,6 +73,7 @@ class LocationController extends Controller
     {
         $post = Location::find($id);
         $post->update($request->all());
+
         return $post;
     }
 
@@ -87,6 +89,7 @@ class LocationController extends Controller
         if ($hasEvents) {
             return response()->json(['message' => 'Location has events related to.'], 500);
         }
+
         return Location::destroy($id);
     }
 }

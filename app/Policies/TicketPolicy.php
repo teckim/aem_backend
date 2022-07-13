@@ -94,7 +94,7 @@ class TicketPolicy
 
     public function checkin(User $user, Ticket $ticket) 
     {
-        $can = $user->hasPermission('update_ticket_checkin');
+        $can = $user->hasRole(['ORGANIZER']);
         $own = $ticket->event->team()->whereIn('id', $user->teams)->exists();
         $own = true;
         error_log($own);

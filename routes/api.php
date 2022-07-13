@@ -66,7 +66,7 @@ Route::group([
 
 // Verify email
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['signed', 'throttle:6,1'])
+    ->middleware(['throttle:6,1'])
     ->name('verification.verify');
 
 // Resend link to verify email

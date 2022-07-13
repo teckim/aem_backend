@@ -50,6 +50,7 @@ class MemberController extends Controller
     {
         $post = Member::find($id);
         $post->update($request->all());
+
         return $post;
     }
 

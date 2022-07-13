@@ -50,6 +50,7 @@ class SponsoringController extends Controller
     {
         $post = Sponsoring::find($id);
         $post->update($request->all());
+
         return $post;
     }
 
